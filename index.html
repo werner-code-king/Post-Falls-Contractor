@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Post Falls Contractor Network</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Source+Sans+3:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0F2A28;
+    --ink-soft: #4C6B68;
+    --bg: #F4F8F7;
+    --surface: #FFFFFF;
+    --surface-sunk: #EAF1EF;
+    --border: #D7E4E1;
+    --accent: #0E7C7A;
+    --accent-ink: #FFFFFF;
+    --accent-soft: #DCF0EE;
+    --amber: #B5790A;
+    --amber-soft: #FBF0DC;
+    --good: #1E7A4C;
+    --good-soft: #E1F3E8;
+    --bad: #B23A3A;
+    --bad-soft: #FBE7E5;
+    --shadow: 0 8px 24px rgba(15, 42, 40, 0.08);
+    --radius: 14px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ink: #E7F2F0;
+      --ink-soft: #9FB8B5;
+      --bg: #0C1917;
+      --surface: #11201E;
+      --surface-sunk: #0A1615;
+      --border: #203C39;
+      --accent: #3BC2B8;
+      --accent-ink: #06211F;
+      --accent-soft: #163733;
+      --amber: #E0A940;
+      --amber-soft: #2E2410;
+      --good: #4FCB85;
+      --good-soft: #10281B;
+      --bad: #E27373;
+      --bad-soft: #2E1414;
+      --shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+  }
+  :root[data-theme="dark"] {
+    --ink: #E7F2F0;
+    --ink-soft: #9FB8B5;
+    --bg: #0C1917;
+    --surface: #11201E;
+    --surface-sunk: #0A1615;
+    --border: #203C39;
+    --accent: #3BC2B8;
+    --accent-ink: #06211F;
+    --accent-soft: #163733;
+    --amber: #E0A940;
+    --amber-soft: #2E2410;
+    --good: #4FCB85;
+    --good-soft: #10281B;
+    --bad: #E27373;
+    --bad-soft: #2E1414;
+    --shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  [hidden] { display: none !important; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Source Sans 3', system-ui, sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 { font-family: 'Big Shoulders Display', sans-serif; font-weight: 800; letter-spacing: 0.01em; text-wrap: balance; margin: 0; }
+  .mono, .rating-num, .rating-count, .chip-count, .stat-num { font-family: 'IBM Plex Mono', monospace; font-variant-numeric: tabular-nums; }
+  a { color: var(--accent); text-decoration: none; }
+  button { font-family: inherit; }
+
+  .wrap { max-width: 1160px; margin: 0 auto; padding: 0 16px; }
+
+  /* header */
+  header.site-header {
+    position: sticky; top: 0; z-index: 40;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+  .header-inner { display: flex; align-items: center; gap: 14px; padding: 12px 0; flex-wrap: wrap; }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .brand-mark {
+    width: 38px; height: 38px; border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent), #1a5f5d);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent-ink); font-family: 'Big Shoulders Display'; font-weight: 800; font-size: 18px;
+    flex-shrink: 0;
+  }
+  .brand-text h1 { font-size: 20px; line-height: 1.1; }
+  .brand-locus { font-size: 12px; color: var(--ink-soft); }
+  .pill {
+    font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 999px;
+    border: 1px solid var(--border); white-space: nowrap;
+  }
+  .pill-connecting { background: var(--surface-sunk); color: var(--ink-soft); }
+  .pill-live { background: var(--good-soft); color: var(--good); border-color: transparent; }
+  .pill-local { background: var(--amber-soft); color: var(--amber); border-color: transparent; }
+  .header-spacer { flex: 1 1 auto; min-width: 8px; }
+  .header-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .search-box {
+    position: relative; min-width: 180px; flex: 1 1 220px; max-width: 320px;
+  }
+  .search-box input {
+    width: 100%; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--border);
+    background: var(--surface-sunk); color: var(--ink); font-size: 14px;
+  }
+  .search-box input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px; cursor: pointer;
+    border-radius: 10px; padding: 8px 14px; font-size: 14px; font-weight: 600;
+    border: 1px solid var(--border); background: var(--surface); color: var(--ink);
+    white-space: nowrap;
+  }
+  .btn:hover { border-color: var(--accent); }
+  .btn-primary { background: var(--accent); color: var(--accent-ink); border-color: transparent; }
+  .btn-primary:hover { filter: brightness(1.05); }
+  .btn-ghost { background: transparent; }
+  .btn-disabled { background: var(--surface-sunk); color: var(--ink-soft); cursor: default; border-color: var(--border); }
+  .badge-count {
+    background: var(--bad); color: #fff; font-size: 11px; font-weight: 700;
+    border-radius: 999px; min-width: 18px; height: 18px; display: inline-flex;
+    align-items: center; justify-content: center; padding: 0 4px; margin-left: 4px;
+  }
+
+  /* hero */
+  .hero { padding: 28px 0 8px; }
+  .hero h2 { font-size: 30px; margin-bottom: 10px; }
+  .hero p { color: var(--ink-soft); max-width: 680px; font-size: 15px; }
+
+  .zip-checker {
+    margin-top: 16px; background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 14px 16px; max-width: 460px; box-shadow: var(--shadow);
+  }
+  .zip-checker label { font-size: 13px; font-weight: 600; color: var(--ink-soft); display: block; margin-bottom: 6px; }
+  .zip-checker input {
+    width: 140px; padding: 7px 10px; border-radius: 8px; border: 1px solid var(--border);
+    background: var(--surface-sunk); color: var(--ink); font-size: 14px; font-family: 'IBM Plex Mono', monospace;
+  }
+  .zip-result { font-size: 13px; margin-top: 8px; min-height: 18px; }
+  .zip-good { color: var(--good); }
+  .zip-warn { color: var(--amber); }
+  .zip-bad { color: var(--bad); }
+
+  .stats-row { display: flex; gap: 22px; margin-top: 20px; flex-wrap: wrap; }
+  .stat-tile { min-width: 100px; }
+  .stat-num { font-size: 26px; font-weight: 700; color: var(--accent); display: block; }
+  .stat-label { font-size: 12px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.04em; }
+
+  /* disclaimer */
+  .disclaimer {
+    margin: 20px 0; background: var(--amber-soft); border: 1px solid var(--amber);
+    border-radius: var(--radius); padding: 14px 16px; display: flex; gap: 10px; align-items: flex-start;
+    font-size: 13.5px; color: var(--ink);
+  }
+  .disclaimer svg { flex-shrink: 0; color: var(--amber); margin-top: 2px; }
+  .disclaimer strong { color: var(--amber); }
+
+  /* chip row */
+  .chip-row-wrap { margin: 18px 0 6px; }
+  .chip-row {
+    display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: thin;
+  }
+  .chip {
+    --chip-color: var(--accent);
+    display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
+    padding: 7px 12px; border-radius: 999px; border: 1px solid var(--border);
+    background: var(--surface); color: var(--ink); font-size: 13px; font-weight: 600;
+    cursor: pointer; flex-shrink: 0;
+  }
+  .chip svg { color: var(--chip-color); }
+  .chip:hover { border-color: var(--chip-color); }
+  .chip.active { background: var(--chip-color); color: #fff; border-color: transparent; }
+  .chip.active svg { color: #fff; }
+  .chip-count { font-size: 11px; opacity: 0.75; }
+  .chip-all.active { background: var(--ink); }
+
+  /* filter row */
+  .filter-row {
+    display: flex; gap: 14px; flex-wrap: wrap; align-items: center; margin: 14px 0 18px;
+    font-size: 13px; color: var(--ink-soft);
+  }
+  .filter-row label { display: flex; align-items: center; gap: 6px; }
+  .filter-row select {
+    padding: 6px 8px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--ink);
+  }
+  .result-count { margin-left: auto; font-weight: 600; }
+
+  /* grid */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; padding-bottom: 60px; }
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 16px; box-shadow: var(--shadow); cursor: pointer; display: flex; flex-direction: column; gap: 8px;
+    transition: transform 0.08s ease;
+  }
+  .card:hover { transform: translateY(-2px); border-color: var(--accent); }
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; }
+  .avatar {
+    width: 44px; height: 44px; border-radius: 10px; color: #fff; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0;
+  }
+  .avatar-lg { width: 56px; height: 56px; font-size: 18px; }
+  .fav-btn {
+    border: none; background: transparent; font-size: 20px; cursor: pointer; color: var(--ink-soft); line-height: 1;
+    padding: 2px 4px;
+  }
+  .fav-btn.active { color: var(--bad); }
+  .card-tag { display: flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; }
+  .card-name { font-size: 18px; line-height: 1.15; }
+  .rank-badge {
+    display: inline-block; font-size: 11px; font-weight: 700; background: var(--surface-sunk); color: var(--ink-soft);
+    padding: 2px 8px; border-radius: 999px; width: fit-content;
+  }
+  .pending-badge { background: var(--amber-soft); color: var(--amber); }
+  .card-rating { display: flex; align-items: center; gap: 6px; font-size: 14px; }
+  .stars { font-size: 14px; letter-spacing: 1px; }
+  .rating-count { color: var(--ink-soft); font-size: 12px; }
+  .no-rating { color: var(--ink-soft); font-size: 13px; font-style: italic; }
+  .rating-src-badge {
+    display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 999px; width: fit-content;
+  }
+  .badge-google { background: var(--accent-soft); color: var(--accent); }
+  .badge-other { background: var(--surface-sunk); color: var(--ink-soft); }
+  .badge-none { background: var(--bad-soft); color: var(--bad); }
+  .card-desc {
+    font-size: 13.5px; color: var(--ink-soft); margin: 0;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .card-addr { font-size: 12.5px; color: var(--ink-soft); margin: 0; }
+  .card-actions { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 4px; flex-wrap: wrap; }
+  .card-actions .btn { padding: 7px 10px; font-size: 13px; }
+  .cmp-check { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--ink-soft); cursor: pointer; }
+  .empty-state { color: var(--ink-soft); padding: 40px 10px; text-align: center; grid-column: 1 / -1; }
+
+  /* compare bar */
+  .compare-bar {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 45;
+    background: var(--ink); color: #fff; padding: 12px 16px; display: flex; align-items: center; gap: 14px;
+    box-shadow: 0 -4px 16px rgba(0,0,0,0.2);
+  }
+  .compare-bar .btn { border-color: rgba(255,255,255,0.3); color: #fff; background: transparent; }
+  .compare-bar .btn-primary { background: var(--accent); border-color: transparent; color: var(--accent-ink); }
+
+  /* modals */
+  .modal {
+    position: fixed; inset: 0; z-index: 60; background: rgba(10, 20, 19, 0.55);
+    display: flex; align-items: center; justify-content: center; padding: 16px;
+  }
+  .modal[hidden] { display: none; }
+  .modal-card {
+    background: var(--surface); border-radius: var(--radius); max-width: 640px; width: 100%;
+    max-height: 86vh; overflow-y: auto; padding: 22px; box-shadow: var(--shadow); position: relative;
+  }
+  .modal-card.wide { max-width: 880px; }
+  .modal-close {
+    position: absolute; top: 14px; right: 14px; border: none; background: var(--surface-sunk);
+    width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 16px; color: var(--ink-soft);
+  }
+  .modal h2 { font-size: 22px; margin-bottom: 14px; }
+  body.modal-open { overflow: hidden; }
+
+  .detail-head { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 10px; }
+  .detail-name { font-size: 24px; margin-bottom: 4px; }
+  .detail-rating { font-size: 16px; margin-top: 10px; }
+  .detail-note { background: var(--amber-soft); border-radius: 8px; padding: 10px 12px; font-size: 13.5px; margin-top: 10px; }
+  .detail-desc { margin-top: 10px; font-size: 14.5px; }
+  .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+  .kv-label { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--ink-soft); margin-bottom: 2px; }
+  .kv-val { font-size: 14px; word-break: break-word; }
+  .sources-block { margin-top: 16px; }
+  .source-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .source-chip {
+    font-size: 11px; background: var(--surface-sunk); padding: 4px 9px; border-radius: 999px; color: var(--accent);
+  }
+  .detail-actions { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
+
+  .compare-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .compare-table th, .compare-table td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: top; }
+  .compare-table thead th { background: var(--surface-sunk); font-family: 'Big Shoulders Display'; font-weight: 800; }
+  .compare-table tbody th { background: var(--surface-sunk); font-weight: 700; white-space: nowrap; }
+
+  form .field { margin-bottom: 14px; }
+  form label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 5px; color: var(--ink-soft); }
+  form input, form select, form textarea {
+    width: 100%; padding: 9px 11px; border-radius: 8px; border: 1px solid var(--border);
+    background: var(--surface-sunk); color: var(--ink); font-size: 14px; font-family: inherit;
+  }
+  form textarea { resize: vertical; min-height: 70px; }
+
+  /* sourcing panel */
+  .sourcing-panel { margin: 24px 0 40px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 4px 18px; }
+  .sourcing-panel summary { cursor: pointer; padding: 14px 0; font-weight: 700; font-size: 15px; }
+  .sourcing-panel .panel-body { padding-bottom: 16px; font-size: 13.5px; color: var(--ink-soft); }
+  .sourcing-panel h4 { font-size: 13px; color: var(--ink); margin: 14px 0 4px; text-transform: uppercase; letter-spacing: 0.03em; }
+  .sourcing-panel ul { margin: 4px 0; padding-left: 20px; }
+
+  footer.site-footer { text-align: center; padding: 20px 16px 40px; font-size: 12px; color: var(--ink-soft); }
+
+  /* toast */
+  #toast {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: var(--ink); color: var(--bg); padding: 10px 18px; border-radius: 999px; font-size: 13px;
+    opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s; z-index: 80; max-width: 90vw;
+  }
+  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  @media (max-width: 640px) {
+    .detail-grid { grid-template-columns: 1fr; }
+    .stats-row { gap: 14px; }
+    .header-actions .btn span.btn-label { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <div class="brand">
+      <div class="brand-mark">PF</div>
+      <div class="brand-text">
+        <h1>Contractor Network</h1>
+        <div class="brand-locus">Post Falls, ID · North Idaho / Kootenai County</div>
+      </div>
+    </div>
+    <span class="pill pill-connecting" id="syncPill">Connecting…</span>
+    <div class="header-spacer"></div>
+    <div class="header-actions">
+      <div class="search-box">
+        <input type="search" id="searchInput" placeholder="Search contractors, trades…" aria-label="Search">
+      </div>
+      <button class="btn" id="myListBtn">♥ My List <span class="badge-count" id="favCount" hidden>0</span></button>
+      <button class="btn btn-primary" id="listBizBtn">List a business</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <h2>Find a contractor who actually serves North Idaho winters &amp; summers.</h2>
+    <p>This directory compiles <strong id="statTotalInline"></strong> real businesses across 14 trades serving Post Falls and Kootenai County, ranked within each trade by rating and review volume, using automated web search — not phone calls or site visits. Check your ZIP, browse by trade, and confirm license, insurance and availability directly before you hire.</p>
+
+    <div class="zip-checker">
+      <label for="zipInput">Check your ZIP code</label>
+      <input type="text" id="zipInput" placeholder="e.g. 83854" maxlength="5" inputmode="numeric">
+      <div class="zip-result" id="zipResult"></div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-tile"><span class="stat-num" id="statTotal">0</span><span class="stat-label">Contractors</span></div>
+      <div class="stat-tile"><span class="stat-num" id="statTrades">0</span><span class="stat-label">Trades covered</span></div>
+      <div class="stat-tile"><span class="stat-num" id="statGoogle">0</span><span class="stat-label">Google-rated</span></div>
+      <div class="stat-tile"><span class="stat-num" id="statRated">0</span><span class="stat-label">Publicly rated</span></div>
+    </div>
+  </section>
+
+  <div class="disclaimer">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a1.5 1.5 0 0 0 1.3 2.2h17.8a1.5 1.5 0 0 0 1.3-2.2L13.7 3.9a1.5 1.5 0 0 0-2.6 0Z"/></svg>
+    <div><strong>Read before you call:</strong> ratings are a single snapshot from public search results, not independently verified — they can be out of date or mixed up with a similarly named business. Listings were compiled via automated web search, not phone calls or in-person visits. Always confirm license, insurance and current availability directly with the business before hiring.</div>
+  </div>
+
+  <div class="chip-row-wrap">
+    <div class="chip-row" id="chipRow"></div>
+  </div>
+
+  <div class="filter-row">
+    <label><input type="checkbox" id="googleOnlyToggle"> Google-rated only</label>
+    <label>Min rating
+      <select id="minRatingSelect">
+        <option value="0">Any</option>
+        <option value="4.0">4.0+</option>
+        <option value="4.5">4.5+</option>
+        <option value="4.8">4.8+</option>
+      </select>
+    </label>
+    <label>Sort
+      <select id="sortSelect">
+        <option value="directory">Directory order</option>
+        <option value="rating">Highest rated</option>
+        <option value="reviews">Most reviewed</option>
+        <option value="name">Name A–Z</option>
+      </select>
+    </label>
+    <span class="result-count" id="resultCount"></span>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <details class="sourcing-panel">
+    <summary>About the sourcing &amp; its limits</summary>
+    <div class="panel-body">
+      <h4>How this list was built</h4>
+      <p>Five research passes ran web searches per trade using patterns like "best &lt;trade&gt; Post Falls ID", "top rated &lt;trade&gt; Coeur d'Alene ID" and "&lt;trade&gt; Kootenai County Idaho reviews". Each business's rating was labeled "Google" only when a source explicitly attributed it to Google; otherwise the actual platform (HomeAdvisor, Angi, Yelp, Thumbtack, BBB, Experience.com, a directory, or the company's own site) is named instead. Businesses were ranked within each trade by rating, weighted by review count, so a perfect score from one or two reviews ranks below a strong score backed by dozens or hundreds — judgment calls like that are noted on the business card.</p>
+      <h4>Known gaps</h4>
+      <ul>
+        <li>Most ratings come from HomeAdvisor/Angi aggregator snapshots rather than a single canonical platform — only 8 of 93 listings carry a rating explicitly sourced from Google.</li>
+        <li>20 of 93 listings have no verifiable public rating at all; they're included because they're real, locally findable businesses, not because they're unrated by omission.</li>
+        <li>Phone numbers and street addresses are frequently missing or unconfirmed — many small North Idaho trades operate from a truck or a PO Box rather than a storefront.</li>
+        <li>No license or insurance status is verified anywhere in this directory. A handful of listings mention a license self-report or an aggregator "approved pro" badge; those are noted as unverified claims, never shown as a badge.</li>
+        <li>Some businesses based just across the state line in Spokane/Spokane Valley, WA are included where they clearly advertise serving Post Falls/Coeur d'Alene.</li>
+      </ul>
+      <h4>Working now</h4>
+      <ul>
+        <li>All 14 trades, filtering, sorting, search, favorites, and side-by-side compare.</li>
+        <li>A community "List a business" form for submissions the research passes missed — shown with an unverified badge.</li>
+      </ul>
+      <h4>Suggested next steps</h4>
+      <ul>
+        <li>Spot-check phone numbers and addresses directly before publishing this more widely.</li>
+        <li>Re-run searches periodically — ratings and review counts drift, and some aggregator snapshots disagreed with each other during this research.</li>
+      </ul>
+    </div>
+  </details>
+</main>
+
+<footer class="site-footer">
+  Not affiliated with any business listed. Verify license, insurance, and availability directly before hiring. Data compiled via automated web search and may be outdated or incomplete.
+</footer>
+
+<div class="compare-bar" id="compareBar" hidden>
+  <span id="compareCount">0 selected</span>
+  <button class="btn" id="clearCompareBtn">Clear</button>
+  <button class="btn btn-primary" id="compareBtn">Compare</button>
+</div>
+
+<!-- Detail modal -->
+<div class="modal" id="detailModal" hidden>
+  <div class="modal-card">
+    <button class="modal-close" data-close-modal aria-label="Close">✕</button>
+    <div id="detailBody"></div>
+  </div>
+</div>
+
+<!-- My list modal -->
+<div class="modal" id="myListModal" hidden>
+  <div class="modal-card wide">
+    <button class="modal-close" data-close-modal aria-label="Close">✕</button>
+    <h2>My List</h2>
+    <div class="grid" id="myListBody"></div>
+  </div>
+</div>
+
+<!-- Compare modal -->
+<div class="modal" id="compareModal" hidden>
+  <div class="modal-card wide">
+    <button class="modal-close" data-close-modal aria-label="Close">✕</button>
+    <h2>Compare contractors</h2>
+    <div id="compareBody" style="overflow-x:auto"></div>
+  </div>
+</div>
+
+<!-- Submit business modal -->
+<div class="modal" id="submitModal" hidden>
+  <div class="modal-card">
+    <button class="modal-close" data-close-modal aria-label="Close">✕</button>
+    <h2>List a business</h2>
+    <p style="font-size:13px;color:var(--ink-soft);margin-top:-6px">Submissions are shown with an unverified "Community submission" badge — they aren't researched or confirmed by this directory.</p>
+    <form id="submitForm">
+      <div class="field">
+        <label for="bizName">Business name *</label>
+        <input type="text" id="bizName" name="bizName" required>
+      </div>
+      <div class="field">
+        <label for="bizCategory">Trade *</label>
+        <select id="bizCategory" name="bizCategory" required>
+          <option value="" disabled selected>Select a trade…</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="bizPhone">Phone</label>
+        <input type="tel" id="bizPhone" name="bizPhone">
+      </div>
+      <div class="field">
+        <label for="bizWebsite">Website</label>
+        <input type="url" id="bizWebsite" name="bizWebsite" placeholder="https://">
+      </div>
+      <div class="field">
+        <label for="bizAddress">Address / service area</label>
+        <input type="text" id="bizAddress" name="bizAddress">
+      </div>
+      <div class="field">
+        <label for="bizDesc">Short description</label>
+        <textarea id="bizDesc" name="bizDesc"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit listing</button>
+    </form>
+  </div>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script src="app.js"></script>
+<script>
+  (function () {
+    var sel = document.getElementById('bizCategory');
+    var cats = ['Landscaping & Lawn Care','Roofing','HVAC & Furnace','Electrical','Plumbing','Handyman','Windows & Doors','Painting','Pressure Washing','Garage Doors','Fencing & Decking','Snow Removal','Septic & Well Services','Pest Control'];
+    cats.forEach(function (c) {
+      var o = document.createElement('option');
+      o.value = c; o.textContent = c;
+      sel.appendChild(o);
+    });
+    document.addEventListener('DOMContentLoaded', function () {
+      var t = document.getElementById('statTotalInline');
+      if (t) t.textContent = '93+';
+    });
+  })();
+</script>
+</body>
+</html>
