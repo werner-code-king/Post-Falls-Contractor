@@ -349,7 +349,7 @@
 <main class="wrap">
   <section class="hero">
     <h2>Find a contractor who actually serves North Idaho winters &amp; summers.</h2>
-    <p>This directory compiles <strong id="statTotalInline"></strong> real businesses across 14 trades serving Post Falls and Kootenai County, ranked within each trade by rating and review volume, using automated web search — not phone calls or site visits. Check your ZIP, browse by trade, and confirm license, insurance and availability directly before you hire.</p>
+    <p>This directory compiles <strong id="statTotalInline"></strong> real businesses across 15 trades serving Post Falls and Kootenai County, ranked within each trade by rating and review volume, using automated web search — not phone calls or site visits. Check your ZIP, browse by trade, and confirm license, insurance and availability directly before you hire.</p>
 
     <div class="zip-checker">
       <label for="zipInput">Check your ZIP code</label>
@@ -412,7 +412,7 @@
       </ul>
       <h4>Working now</h4>
       <ul>
-        <li>All 14 trades, filtering, sorting, search, favorites, and side-by-side compare.</li>
+        <li>All 15 trades, filtering, sorting, search, favorites, and side-by-side compare.</li>
         <li>A community "List a business" form for submissions the research passes missed — shown with an unverified badge.</li>
       </ul>
       <h4>Suggested next steps</h4>
@@ -504,15 +504,11 @@
 <script>
   (function () {
     var sel = document.getElementById('bizCategory');
-    var cats = ['Landscaping & Lawn Care','Roofing','HVAC & Furnace','Electrical','Plumbing','Handyman','Windows & Doors','Painting','Pressure Washing','Garage Doors','Fencing & Decking','Snow Removal','Septic & Well Services','Pest Control'];
+    var cats = ['Landscaping & Lawn Care','Roofing','HVAC & Furnace','Electrical','Plumbing','Handyman','Windows & Doors','Painting','Pressure Washing','Garage Doors','Fencing & Decking','Snow Removal','Septic & Well Services','Pest Control','Housekeeping'];
     cats.forEach(function (c) {
       var o = document.createElement('option');
       o.value = c; o.textContent = c;
       sel.appendChild(o);
-    });
-    document.addEventListener('DOMContentLoaded', function () {
-      var t = document.getElementById('statTotalInline');
-      if (t) t.textContent = '93+';
     });
   })();
 </script>
