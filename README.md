@@ -5,7 +5,7 @@ A single-page contractor directory for Post Falls, Idaho and the surrounding Coe
 ## What's here
 
 - **14 trade categories** adapted for North Idaho's climate and property mix: Landscaping & Lawn Care, Roofing, HVAC & Furnace, Electrical, Plumbing, Handyman, Windows & Doors, Painting, Pressure Washing, Garage Doors, Fencing & Decking, Snow Removal, Septic & Well Services, and Pest Control.
-- **93 researched businesses** across those trades, each with a name, trade, phone/website/address where found, a rating and the *actual* platform it came from, source links, and a directory rank within its trade.
+- **89 researched businesses** across those trades (refreshed weekly — see below), each with a name, trade, phone/website/address where found, a rating and the *actual* platform it came from, source links, and a directory rank within its trade.
 - Category filtering, search, a ZIP-code coverage checker (Post Falls core ZIP 83854, plus nearby Coeur d'Alene-area ZIPs), favorites ("My List"), side-by-side compare (up to 3), and a "List a business" form for unverified community submissions.
 - When published as a Claude Artifact with `db`/`user` capabilities granted, the directory and favorites sync live across viewers; otherwise it falls back to `localStorage` automatically (same UI, "Local demo only" status pill).
 
@@ -23,11 +23,16 @@ Rules followed for every listing:
 
 ## Known limitations
 
-- Most ratings come from HomeAdvisor/Angi aggregator snapshots rather than a single canonical platform — only 8 of 93 listings carry a rating explicitly sourced from Google itself.
-- 20 of 93 listings have no verifiable public rating at all.
+- Most ratings come from HomeAdvisor/Angi aggregator snapshots rather than a single canonical platform — only 9 of 89 listings carry a rating explicitly sourced from Google itself.
+- 25 of 89 listings have no verifiable public rating at all.
 - Phone numbers and street addresses are frequently missing or unconfirmed — many small North Idaho trades operate from a truck or a PO Box rather than a storefront.
-- A few listings are based just across the state line in Spokane/Spokane Valley, WA, included only where they clearly advertise serving the Post Falls/Coeur d'Alene area.
+- A few listings are based just across the state line in Spokane/Spokane Valley/Otis Orchards/Liberty Lake, WA, included only where they clearly advertise serving the Post Falls/Coeur d'Alene area.
+- Because each weekly refresh re-runs independent web searches, the exact set of businesses can shift from week to week — a trade's roster reflects what surfaced in that week's searches, not a fixed master list. A business dropping off one week doesn't mean it closed.
 - Nothing here is phone-verified or independently audited. Confirm license, insurance, and current availability directly with any business before hiring.
+
+## Data refresh
+
+This directory's data is refreshed automatically once a week (Saturdays) by re-running the full sourcing methodology above from scratch — fresh web searches for all 14 trades, a rebuilt seed dataset, and a resync of the GitHub repo, the Claude Artifact, and its shared database.
 
 ## Files
 
