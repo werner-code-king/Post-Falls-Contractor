@@ -24,7 +24,7 @@ Rules followed for every listing:
 ## Known limitations
 
 - Most ratings come from HomeAdvisor/Angi aggregator snapshots rather than a single canonical platform — only 7 of 99 listings carry a rating explicitly sourced from Google itself.
-- 21 of 99 listings have no verifiable public rating at all.
+- 26 of 99 listings have no verifiable public rating at all.
 - Phone numbers and street addresses are frequently missing or unconfirmed — many small North Idaho trades operate from a truck or a PO Box rather than a storefront.
 - A few listings are based just across the state line in Spokane/Spokane Valley/Otis Orchards/Liberty Lake, WA, included only where they clearly advertise serving the Post Falls/Coeur d'Alene area.
 - Because each weekly refresh re-runs independent web searches, the exact set of businesses can shift from week to week — a trade's roster reflects what surfaced in that week's searches, not a fixed master list. A business dropping off one week doesn't mean it closed.
